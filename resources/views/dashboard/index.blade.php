@@ -3,19 +3,29 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
-        <div class="text-center p-4 shadow rounded-3 bg-white" style="max-width: 540px;">
-            <p class="text-uppercase text-muted fw-semibold mb-2">MedForge</p>
-            <h1 class="h3 mb-3">Panel en construcción</h1>
-            <p class="mb-4">
-                Estamos migrando los módulos a la arquitectura Laravel. Este dashboard servirá como base para los nuevos widgets.
-            </p>
-            <p class="text-muted small mb-4">
-                Si necesitas acceder al panel anterior, avísanos para priorizar su migración.
-            </p>
-            <a href="mailto:soporte@medforge.io" class="btn btn-outline-primary">
-                Solicitar ayuda
-            </a>
+    <div class="content-header">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3">
+            <div>
+                <h3 class="page-title">Dashboard</h3>
+                <p class="text-muted mb-0">Resumen operativo · {{ $range['start'] }} – {{ $range['end'] }}</p>
+            </div>
+        </div>
+    </div>
+
+    @include('dashboard.widgets.summary-cards', compact('counts', 'range'))
+
+    <div class="row mt-3 g-3">
+        <div class="col-xl-8">
+            @include('dashboard.widgets.procedures-trend', compact('trend'))
+        </div>
+        <div class="col-xl-4">
+            @include('dashboard.widgets.top-procedures', compact('topProcedures'))
+        </div>
+    </div>
+
+    <div class="row mt-3 g-3">
+        <div class="col-12">
+            @include('dashboard.widgets.recent-surgeries', compact('recentSurgeries'))
         </div>
     </div>
 @endsection
