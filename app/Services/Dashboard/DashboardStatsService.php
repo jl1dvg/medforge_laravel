@@ -63,14 +63,13 @@ class DashboardStatsService
     {
         return DB::table('protocolo_data as pr')
             ->join('patient_data as p', 'p.hc_number', '=', 'pr.hc_number')
-            ->leftJoin('users as u', 'u.id', '=', 'pr.doctor_id')
             ->select([
                 'pr.id',
                 'pr.membrete',
                 'pr.fecha_inicio',
                 'p.hc_number',
                 DB::raw("CONCAT(COALESCE(p.lname,''), ' ', COALESCE(p.lname2,''), ' ', COALESCE(p.fname,'')) as patient_name"),
-                DB::raw('COALESCE(u.nombre, u.username, u.email) as doctor_name'),
+                DB::raw('"Sin asignar" as doctor_name'),
             ])
             ->whereBetween('pr.fecha_inicio', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
             ->orderByDesc('pr.fecha_inicio')
