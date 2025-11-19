@@ -3,8 +3,10 @@
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Legacy\BillingExportController;
 use App\Http\Controllers\Legacy\ModuleBrowserController;
 use App\Http\Controllers\Pacientes\PacienteController;
+use App\Http\Controllers\Reportes\PatientFlowStatisticsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,4 +48,12 @@ Route::middleware('auth')->group(function () {
             ->only(['index', 'show'])
             ->parameter('modules', 'module');
     });
+
+    Route::prefix('billing')->name('billing.')->group(function () {
+        Route::get('/excel', [BillingExportController::class, 'export'])->name('excel');
+        Route::get('/exportar_mes', [BillingExportController::class, 'exportMonth'])->name('export-month');
+    });
+
+    Route::get('/reportes/estadistica_flujo', PatientFlowStatisticsController::class)
+        ->name('reportes.estadistica-flujo');
 });
