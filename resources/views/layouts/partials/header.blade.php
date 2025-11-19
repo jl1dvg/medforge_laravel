@@ -2,12 +2,12 @@
     <div class="d-flex align-items-center logo-box justify-content-start">
         <a href="{{ route('dashboard') }}" class="logo">
             <div class="logo-mini w-50">
-                <span class="light-logo"><img src="{{ asset('images/logo-light-text.png') }}" alt="logo"></span>
-                <span class="dark-logo"><img src="{{ asset('images/logo-light-text.png') }}" alt="logo"></span>
+                <span class="light-logo"><img src="{{ Vite::asset('resources/images/logo-light-text.png') }}" alt="logo"></span>
+                <span class="dark-logo"><img src="{{ Vite::asset('resources/images/logo-light-text.png') }}" alt="logo"></span>
             </div>
             <div class="logo-lg">
-                <span class="light-logo"><img src="{{ asset('images/logo-light-text.png') }}" alt="logo"></span>
-                <span class="dark-logo"><img src="{{ asset('images/logo-light-text.png') }}" alt="logo"></span>
+                <span class="light-logo"><img src="{{ Vite::asset('resources/images/logo-light-text.png') }}" alt="logo"></span>
+                <span class="dark-logo"><img src="{{ Vite::asset('resources/images/logo-light-text.png') }}" alt="logo"></span>
             </div>
         </a>
     </div>
@@ -61,7 +61,7 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu animated flipInX">
-                        <li class="user-header bg-img" data-overlay="3" style="background-image: url('{{ asset('images/user-info.jpg') }}')">
+                        <li class="user-header bg-img" data-overlay="3" style="background-image: url('{{ Vite::asset('resources/images/user-info.jpg') }}')">
                             <div class="flexbox align-items-center">
                                 @if($profilePhotoUrl)
                                     <img src="{{ $profilePhotoUrl }}" class="avatar avatar-xl rounded-circle bg-white" alt="{{ $displayName }}">

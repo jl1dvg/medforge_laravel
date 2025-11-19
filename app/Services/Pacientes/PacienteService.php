@@ -111,6 +111,21 @@ class PacienteService
         ];
     }
 
+    public function solicitudDetalle(string $hcNumber, string $formId): ?array
+    {
+        $row = DB::table('solicitud_procedimiento as sp')
+            ->leftJoin('consulta_data as cd', function ($join) {
+                $join->on('sp.hc_number', '=', 'cd.hc_number');
+                $join->on('sp.form_id', '=', 'cd.form_id');
+            })
+            ->select('sp.*', 'cd.*')
+            ->where('sp.hc_number', $hcNumber)
+            ->where('sp.form_id', $formId)
+            ->first();
+
+        return $row ? (array) $row : null;
+    }
+
     private function lastConsultations(string $hcNumber): Collection
     {
         return DB::table('consulta_data')

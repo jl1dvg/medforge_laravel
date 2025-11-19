@@ -3,7 +3,7 @@
 @section('title', 'Pacientes')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/vendor_components/datatable/datatables.min.css') }}">
+    @vite('resources/css/vendor/datatables.css')
 @endpush
 
 @section('content')
@@ -58,36 +58,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/vendor_components/datatable/datatables.min.js') }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tableElement = document.getElementById('pacientes-table');
-            if (!tableElement || typeof $ === 'undefined') {
-                return;
-            }
-
-            $(tableElement).DataTable({
-                serverSide: true,
-                processing: true,
-                ajax: {
-                    url: '{{ route('pacientes.datatable') }}',
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    },
-                },
-                columns: [
-                    { data: 'hc_number' },
-                    { data: 'ultima_fecha' },
-                    { data: 'full_name' },
-                    { data: 'afiliacion' },
-                    { data: 'estado_html', orderable: false, searchable: false },
-                    { data: 'acciones_html', orderable: false, searchable: false },
-                ],
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
-                },
-            });
-        });
-    </script>
+    @vite('resources/js/pages/pacientes/index.js')
 @endpush

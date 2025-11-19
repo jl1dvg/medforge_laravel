@@ -58,7 +58,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('images/favicon.ico') }}">
+    <link rel="icon" href="{{ Vite::asset('resources/images/favicon.ico') }}">
     <title>{{ $fullTitle }}</title>
 
     @vite([

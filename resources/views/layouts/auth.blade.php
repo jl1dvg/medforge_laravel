@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MedForge · @yield('title', 'Iniciar sesión')</title>
-    <link rel="icon" href="{{ asset('images/favicon.ico') }}">
+    <link rel="icon" href="{{ Vite::asset('resources/images/favicon.ico') }}">
     @vite([
         'resources/css/app.css',
         'resources/css/legacy.css',

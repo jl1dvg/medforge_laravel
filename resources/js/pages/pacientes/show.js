@@ -1,10 +1,12 @@
 import { injectLegacyScripts } from '../../legacy/injector.js';
+import { initSolicitudModal } from './solicitudes-modal.js';
 
 const patientScripts = [
     'assets/vendor_components/apexcharts-bundle/dist/apexcharts.js',
     'assets/vendor_components/horizontal-timeline/js/horizontal-timeline.js',
-    'js/pages/patient-detail.js',
 ];
+
+initSolicitudModal();
 
 if (typeof document !== 'undefined') {
     injectLegacyScripts(patientScripts)
