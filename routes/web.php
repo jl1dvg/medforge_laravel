@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Pacientes\PacienteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,4 +20,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::post('/auth/logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('/auth/logout', [LoginController::class, 'destroy']);
+
+    Route::prefix('pacientes')->name('pacientes.')->group(function () {
+        Route::get('/', [PacienteController::class, 'index'])->name('index');
+        Route::post('/datatable', [PacienteController::class, 'datatable'])->name('datatable');
+        Route::get('/{hcNumber}', [PacienteController::class, 'show'])
+            ->where('hcNumber', '[A-Za-z0-9\-]+')
+            ->name('show');
+    });
 });
