@@ -2735,6 +2735,18 @@
       "datatables.css"
     ]
   },
+  "resources/images/favicon.ico": {
+    "file": "assets/favicon-DBrf_VyU.ico",
+    "src": "resources/images/favicon.ico"
+  },
+  "resources/images/logo-light-text.png": {
+    "file": "assets/logo-light-text-DWPt55X3.png",
+    "src": "resources/images/logo-light-text.png"
+  },
+  "resources/images/user-info.jpg": {
+    "file": "assets/user-info-BvuUPTws.jpg",
+    "src": "public/images/user-info.jpg"
+  },
   "resources/js/app.js": {
     "file": "assets/app-BsJAy7GL.js",
     "name": "app",
