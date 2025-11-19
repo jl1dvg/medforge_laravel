@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\Legacy\LegacyModuleController;
 use App\Http\Controllers\Api\Pacientes\SolicitudDetalleController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('api')
+Route::middleware(['api', 'legacy.module'])
     ->prefix('legacy')
     ->name('api.legacy.')
     ->group(function (): void {

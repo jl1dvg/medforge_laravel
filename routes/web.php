@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
             ->name('show');
     });
 
-    Route::prefix('legacy')->name('legacy.')->group(function () {
+    Route::prefix('legacy')->name('legacy.')->middleware('legacy.module')->group(function () {
         Route::resource('modules', ModuleBrowserController::class)
             ->only(['index', 'show'])
             ->parameter('modules', 'module');

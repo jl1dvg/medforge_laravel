@@ -7,6 +7,22 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Plan de migración de módulos legacy
+
+Este proyecto mantiene módulos heredados mientras se completa su migración al stack moderno. Cada módulo puede habilitarse o deshabilitarse desde `config/legacy.php`, preferentemente mediante las variables declaradas en `.env` (`LEGACY_MODULE_*_ENABLED`). Todas las rutas legacy viven bajo el prefijo `/legacy` y pasan por el middleware `legacy.module`, lo que nos permite bloquear el tráfico hacia un módulo deshabilitado antes de tocar los controladores.
+
+| Módulo | Estado | Riesgo documentado | Toggle |
+| --- | --- | --- | --- |
+| Pacientes y HC | Activo (legacy) | La indisponibilidad impide revisar historiales clínicos consolidados. | `LEGACY_MODULE_PACIENTES_ENABLED`
+| Solicitudes y CRM | Activo (legacy) | Un corte detiene el seguimiento de solicitudes y compromete la coordinación de quirófano. | `LEGACY_MODULE_SOLICITUDES_ENABLED`
+| Facturación | Activo (legacy) | Un error afecta la generación de reportes oficiales y la recaudación mensual. | `LEGACY_MODULE_BILLING_ENABLED`
+
+### Procedimiento
+
+1. **Seguimiento:** Mantén el estado y riesgos actualizados en la tabla anterior conforme se agreguen o retiren módulos de `config/legacy.php`.
+2. **Aislamiento:** Todo endpoint legacy debe conservar el prefijo `/legacy` o un middleware equivalente hasta culminar la migración.
+3. **Desactivación:** Cuando un módulo se estabiliza en el nuevo stack, desactívalo vía variable de entorno, elimina sus controladores/vistas legacy y documenta el hito en este archivo.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
