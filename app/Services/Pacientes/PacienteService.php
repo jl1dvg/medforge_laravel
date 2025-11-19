@@ -95,6 +95,7 @@ class PacienteService
 
         return [
             'patient' => $patient,
+            'patientData' => (array) $patient,
             'coverage' => $patient->estado_cobertura ?? 'N/A',
             'patientAge' => $this->ageFrom($patient->fecha_nacimiento ?? null),
             'consultations' => $this->lastConsultations($hcNumber),
@@ -105,6 +106,8 @@ class PacienteService
             'timelineItems' => $this->timelineItems($hcNumber),
             'eventos' => $this->eventosTimeline($hcNumber),
             'estadisticas' => $this->estadisticasProcedimientos($hcNumber),
+            'afiliacionesDisponibles' => $this->afiliacionesDisponibles(),
+            'solicitudPdfBaseUrl' => url('/views/reports/solicitud_quirurgica/solicitud_qx_pdf.php'),
         ];
     }
 
@@ -413,6 +416,25 @@ class PacienteService
         } catch (QueryException) {
             return false;
         }
+    }
+
+    private function afiliacionesDisponibles(): array
+    {
+        $driver = DB::connection()->getDriverName();
+
+        if ($driver === 'sqlite') {
+            $sql = "SELECT DISTINCT afiliacion FROM patient_data WHERE afiliacion IS NOT NULL AND afiliacion != '' AND SUBSTR(afiliacion, 1, 1) GLOB '[A-Za-z]' ORDER BY afiliacion ASC";
+        } else {
+            $sql = "SELECT DISTINCT afiliacion FROM patient_data WHERE afiliacion IS NOT NULL AND afiliacion != '' AND afiliacion REGEXP '^[A-Za-z]' ORDER BY afiliacion ASC";
+        }
+
+        try {
+            $rows = DB::select($sql);
+        } catch (QueryException) {
+            return [];
+        }
+
+        return array_values(array_filter(array_map(fn ($row) => $row->afiliacion ?? null, $rows)));
     }
 
     private function coverageSubQuery()

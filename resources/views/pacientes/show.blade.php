@@ -3,11 +3,8 @@
 @section('title', 'Paciente ' . $hcNumber)
 
 @push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor_components/horizontal-timeline/css/style.css') }}">
     <style>
-        .patient-hero {
-            position: relative;
-            overflow: hidden;
-        }
         .patient-hero__bg {
             min-height: 140px;
             background-size: cover;
@@ -32,15 +29,6 @@
             border-radius: 999px;
             margin-top: 8px;
         }
-        .timeline-horizontal {
-            display: flex;
-            overflow-x: auto;
-            gap: 1rem;
-            padding-bottom: 8px;
-        }
-        .timeline-horizontal .card {
-            min-width: 220px;
-        }
     </style>
 @endpush
 
@@ -48,16 +36,13 @@
     @php
         $fullName = trim(($patient->fname ?? '') . ' ' . ($patient->mname ?? '') . ' ' . ($patient->lname ?? '') . ' ' . ($patient->lname2 ?? ''));
         $insurance = strtolower($patient->afiliacion ?? '');
-        $background = 'assets/logos_seguros/5.png';
-        if (str_contains($insurance, 'issfa')) {
-            $background = 'assets/logos_seguros/2.png';
-        } elseif (str_contains($insurance, 'isspol')) {
-            $background = 'assets/logos_seguros/3.png';
-        } elseif (str_contains($insurance, 'msp')) {
-            $background = 'assets/logos_seguros/4.png';
-        } elseif (str_contains($insurance, 'seguro general')) {
-            $background = 'assets/logos_seguros/1.png';
-        }
+        $background = match (true) {
+            str_contains($insurance, 'issfa') => 'assets/logos_seguros/2.png',
+            str_contains($insurance, 'isspol') => 'assets/logos_seguros/3.png',
+            str_contains($insurance, 'msp') => 'assets/logos_seguros/4.png',
+            str_contains($insurance, 'seguro general') => 'assets/logos_seguros/1.png',
+            default => 'assets/logos_seguros/5.png',
+        };
         $gender = strtolower($patient->sexo ?? '');
         $avatar = str_contains($gender, 'masculino') ? 'images/avatar/male.png' : 'images/avatar/female.png';
     @endphp
@@ -85,7 +70,7 @@
                 <div class="box patient-hero">
                     <div class="patient-hero__bg" style="background-image:url('{{ asset($background) }}')"></div>
                     <div class="box-body">
-                        <button class="btn btn-warning mb-3" type="button">Editar datos</button>
+                        <button class="btn btn-warning mb-3" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarPaciente">Editar datos</button>
                         <div class="d-md-flex align-items-center gap-4">
                             <div class="patient-hero__avatar text-center">
                                 <img src="{{ asset($avatar) }}" alt="Avatar">
@@ -119,27 +104,44 @@
                         <h4 class="box-title mb-0">Solicitudes y prefacturas</h4>
                     </div>
                     <div class="box-body">
-                        @forelse($timelineItems as $item)
-                            @php
-                                $color = match ($item['origen']) {
-                                    'Prefactura' => 'bg-info',
-                                    default => 'bg-primary',
-                                };
-                            @endphp
-                            <div class="timeline-vertical">
-                                <div class="item">
-                                    <span class="bullet {{ $color }}"></span>
-                                    <div>
-                                        <a href="#" class="fw-semibold">{{ $item['nombre'] }}</a>
-                                        <p class="mb-0 text-muted small">
-                                            {{ ucfirst(strtolower($item['origen'])) }} · {{ $item['fecha'] ? \Carbon\Carbon::parse($item['fecha'])->format('d/m/Y') : '—' }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
+                        @if(empty($timelineItems))
                             <p class="text-muted mb-0">Sin solicitudes recientes.</p>
-                        @endforelse
+                        @else
+                            <div class="timeline-vertical">
+                                @foreach($timelineItems as $item)
+                                    @php
+                                        $color = match ($item['origen']) {
+                                            'Prefactura' => 'bg-info',
+                                            default => 'bg-primary',
+                                        };
+                                        $fechaLinea = $item['fecha'] ? \Carbon\Carbon::parse($item['fecha'])->format('d/m/Y') : '—';
+                                        $isSolicitud = ($item['origen'] ?? '') === 'Solicitud';
+                                    @endphp
+                                    <div class="item">
+                                        <span class="bullet {{ $color }}"></span>
+                                        <div class="flex-grow-1">
+                                            <a href="#" class="fw-semibold">{{ $item['nombre'] }}</a>
+                                            <p class="mb-0 text-muted small">{{ ucfirst(strtolower($item['origen'])) }} · {{ $fechaLinea }}</p>
+                                        </div>
+                                        @if($isSolicitud)
+                                            <div class="dropdown">
+                                                <a class="px-10 pt-5" href="#" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item flexbox"
+                                                       href="#"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#modalSolicitud"
+                                                       data-hc="{{ $patient->hc_number }}"
+                                                       data-form-id="{{ $item['form_id'] ?? '' }}">
+                                                        <span>Ver detalles</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -162,10 +164,10 @@
                     </div>
                     <div class="box-body">
                         <div class="media-list media-list-divided" id="document-list">
-                            @forelse($documentos as $documento)
+                            @forelse($documentos as $item)
                                 @php
-                                    $isProtocolo = $documento['tipo'] === 'protocolo';
-                                    $fecha = $documento['fecha'] ? \Carbon\Carbon::parse($documento['fecha']) : null;
+                                    $isProtocolo = $item['tipo'] === 'protocolo';
+                                    $fecha = $item['fecha'] ? \Carbon\Carbon::parse($item['fecha']) : null;
                                 @endphp
                                 <div class="media media-single px-0" data-date="{{ $fecha?->format('Y-m-d') }}">
                                     <div class="ms-0 me-15 {{ $isProtocolo ? 'bg-success-light' : 'bg-primary-light' }} h-50 w-50 l-h-50 rounded text-center d-flex align-items-center justify-content-center">
@@ -174,15 +176,15 @@
                                         </span>
                                     </div>
                                     <div class="d-flex flex-column flex-grow-1">
-                                        <span class="title fw-500 fs-16 text-truncate">{{ $documento['titulo'] }}</span>
-                                        <span class="text-muted small">{{ $fecha?->format('d/m/Y') ?? '—' }}</span>
+                                        <span class="title fw-500 fs-16 text-truncate">{{ $item['titulo'] }}</span>
+                                        <span class="text-fade fw-500 fs-12">{{ $fecha?->format('d/m/Y') ?? '—' }}</span>
                                     </div>
                                     @if($isProtocolo)
-                                        <a class="fs-18 text-gray" href="#" onclick="window.descargarPDFsSeparados?.('{{ $documento['form_id'] }}','{{ $documento['hc_number'] }}');return false;">
+                                        <a class="fs-18 text-gray" href="#" onclick="window.descargarPDFsSeparados?.('{{ $item['form_id'] }}','{{ $item['hc_number'] }}');return false;">
                                             <i class="fa fa-download"></i>
                                         </a>
                                     @else
-                                        <a class="fs-18 text-gray" href="{{ url('/views/reports/solicitud_quirurgica/solicitud_qx_pdf.php?hc_number=' . urlencode($documento['hc_number']) . '&form_id=' . urlencode($documento['form_id'])) }}" target="_blank">
+                                        <a class="fs-18 text-gray" href="{{ $solicitudPdfBaseUrl }}?hc_number={{ urlencode($item['hc_number']) }}&form_id={{ urlencode($item['form_id']) }}" target="_blank">
                                             <i class="fa fa-download"></i>
                                         </a>
                                     @endif
@@ -210,27 +212,55 @@
         </div>
 
         <div class="row g-3 mb-3">
-            <div class="col-12">
-                <div class="box">
-                    <div class="box-header with-border d-flex justify-content-between align-items-center">
+            <div class="col-xl-4 col-12">
+                <div class="box h-100">
+                    <div class="box-header with-border">
+                        <h4 class="box-title mb-0">Diagnósticos frecuentes</h4>
+                    </div>
+                    <div class="box-body">
+                        @if(empty($diagnosticos))
+                            <p class="text-muted mb-0">Sin diagnósticos registrados.</p>
+                        @else
+                            <ul class="list-group list-group-flush">
+                                @foreach($diagnosticos as $diagnostico)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ $diagnostico['idDiagnostico'] }}</span>
+                                        <small class="text-muted">{{ $diagnostico['fecha'] ?? '—' }}</small>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-12">
+                <div class="box h-100">
+                    <div class="box-header with-border">
+                        <h4 class="box-title mb-0">Doctores asignados</h4>
+                    </div>
+                    <div class="box-body">
+                        @if(empty($doctores))
+                            <p class="text-muted mb-0">Sin registros.</p>
+                        @else
+                            <ul class="list-group list-group-flush">
+                                @foreach($doctores as $doctor)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ $doctor->doctor }}</span>
+                                        <span class="badge bg-light text-dark">#{{ $doctor->form_id }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-12">
+                <div class="box h-100">
+                    <div class="box-header with-border">
                         <h4 class="box-title mb-0">Eventos clínicos</h4>
                     </div>
                     <div class="box-body">
-                        @if(empty($eventos))
-                            <p class="text-muted mb-0">No hay datos disponibles para mostrar en el timeline.</p>
-                        @else
-                            <div class="timeline-horizontal">
-                                @foreach($eventos as $evento)
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <h6 class="fw-semibold">{{ $evento->procedimiento_proyectado }}</h6>
-                                            <p class="text-muted small mb-2">{{ $evento->fecha ? \Carbon\Carbon::parse($evento->fecha)->format('d/m/Y') : '—' }}</p>
-                                            <p class="text-muted mb-0">{{ \Illuminate\Support\Str::limit($evento->contenido, 120) }}</p>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
+                        @include('pacientes.components.timeline-horizontal', ['eventos' => $eventos])
                     </div>
                 </div>
             </div>
@@ -303,10 +333,15 @@
             </div>
         </div>
     </section>
+
+    @include('pacientes.components.modal-solicitud')
+    @include('pacientes.components.modal-editar')
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="{{ asset('assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script>
+    <script src="{{ asset('assets/vendor_components/horizontal-timeline/js/horizontal-timeline.js') }}"></script>
+    <script src="{{ asset('js/pages/patient-detail.js') }}"></script>
     <script>
         const statsData = @json($estadisticas);
         document.addEventListener('DOMContentLoaded', () => {
@@ -323,28 +358,5 @@
                 chart.render();
             }
         });
-
-        function filterDocuments(range) {
-            const items = document.querySelectorAll('#document-list .media');
-            const now = new Date();
-            items.forEach(item => {
-                const dateAttr = item.getAttribute('data-date');
-                if (!dateAttr) {
-                    item.style.display = '';
-                    return;
-                }
-                const itemDate = new Date(dateAttr);
-                let diffMonths = (now.getFullYear() - itemDate.getFullYear()) * 12 + (now.getMonth() - itemDate.getMonth());
-                if (range === 'todos') {
-                    item.style.display = '';
-                } else if (range === 'ultimo_mes') {
-                    item.style.display = diffMonths <= 1 ? '' : 'none';
-                } else if (range === 'ultimos_3_meses') {
-                    item.style.display = diffMonths <= 3 ? '' : 'none';
-                } else if (range === 'ultimos_6_meses') {
-                    item.style.display = diffMonths <= 6 ? '' : 'none';
-                }
-            });
-        }
     </script>
 @endpush
