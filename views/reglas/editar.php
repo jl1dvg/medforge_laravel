@@ -2,8 +2,8 @@
 
 require_once '../../bootstrap.php';
 
-use Controllers\ReglaController;
-use Controllers\DashboardController;
+use medforge\controllers\ReglaController;
+use medforge\controllers\DashboardController;
 
 if (!isset($_GET['id'])) {
     echo "ID no proporcionado";

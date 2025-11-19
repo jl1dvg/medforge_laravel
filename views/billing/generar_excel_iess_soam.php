@@ -4,8 +4,8 @@ require_once __DIR__ . '/../../bootstrap.php';
 /** @var PDO $pdo */
 global $pdo;
 
-use Controllers\ReglaController;
-use Controllers\BillingController;
+use medforge\controllers\ReglaController;
+use medforge\controllers\BillingController;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 

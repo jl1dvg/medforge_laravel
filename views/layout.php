@@ -215,7 +215,7 @@ $scriptStack = array_values(array_unique($scriptStack));
 
     if ($pdoInstance instanceof \PDO) {
         try {
-            $pusherService = new \Modules\Notifications\Services\PusherConfigService($pdoInstance);
+            $pusherService = new \medforge\modules\Notifications\Services\PusherConfigService($pdoInstance);
             $panelConfig = $pusherService->getPublicConfig();
 
             $notificationChannels = $panelConfig['channels'] ?? $notificationChannels;
@@ -267,7 +267,7 @@ $scriptStack = array_values(array_unique($scriptStack));
     $civeBootstrap = [];
     if ($pdoInstance instanceof \PDO) {
         try {
-            $civeService = new \Modules\CiveExtension\Services\ConfigService($pdoInstance);
+            $civeService = new \medforge\modules\CiveExtension\Services\ConfigService($pdoInstance);
             $civeBootstrap = $civeService->getFrontendBootstrapConfig();
         } catch (\Throwable $exception) {
             error_log('No fue posible cargar la configuración pública de CIVE Extension: ' . $exception->getMessage());

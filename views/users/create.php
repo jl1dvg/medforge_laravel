@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Controllers\UserController;
+use medforge\controllers\UserController;
 
 $controller = new UserController($pdo);
 

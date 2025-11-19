@@ -39,8 +39,8 @@ function renderBotonGuardarDerivacion($item)
 <?php
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Helpers\IplHelper;
-use Controllers\IplPlanificadorController;
+use medforge\helpers\IplHelper;
+use medforge\controllers\IplPlanificadorController;
 
 $controller = new IplPlanificadorController($pdo);
 

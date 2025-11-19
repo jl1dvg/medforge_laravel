@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Controllers\IplPlanificadorController;
+use medforge\controllers\IplPlanificadorController;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form_id = $_POST['form_id'] ?? null;

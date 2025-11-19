@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Modules\Pacientes\Services\PacienteService;
+use medforge\modules\Pacientes\Services\PacienteService;
 
 header('Content-Type: application/json');
 

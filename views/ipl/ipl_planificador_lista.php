@@ -3,9 +3,9 @@ ob_start();
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Controllers\DashboardController;
-use Controllers\IplPlanificadorController;
-use Helpers\IplHelper;
+use medforge\controllers\DashboardController;
+use medforge\controllers\IplPlanificadorController;
+use medforge\helpers\IplHelper;
 
 $iplPlanificadorController = new IplPlanificadorController($pdo);
 $dashboardController = new DashboardController($pdo);

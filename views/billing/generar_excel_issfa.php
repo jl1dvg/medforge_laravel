@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Controllers\BillingController;
+use medforge\controllers\BillingController;
 
 function aplicarEstiloCelda($sheet, $celda, $opciones = [])
 {

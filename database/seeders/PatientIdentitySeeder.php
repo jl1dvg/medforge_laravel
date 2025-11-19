@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Modules\CRM\Models\LeadModel;
-use Modules\Pacientes\Models\PacientesModel;
-use Modules\Shared\Services\PatientIdentityService;
+use medforge\modules\CRM\Models\LeadModel;
+use medforge\modules\Pacientes\Models\PacientesModel;
+use medforge\modules\Shared\Services\PatientIdentityService;
 
 require_once __DIR__ . '/../bootstrap.php';
 

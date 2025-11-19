@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Controllers\GuardarProyeccionController;
+use medforge\controllers\GuardarProyeccionController;
 
 header('Content-Type: application/json');
 

@@ -81,7 +81,7 @@ function extraerMlDeDescripcion($descripcion)
     return null;
 }
 
-use Controllers\ReglaController;
+use medforge\controllers\ReglaController;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 

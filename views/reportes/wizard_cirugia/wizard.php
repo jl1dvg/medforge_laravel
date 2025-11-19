@@ -4,11 +4,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../../../bootstrap.php';
 
-use Controllers\DashboardController;
-use Modules\Pacientes\Services\PacienteService;
-use Controllers\ReporteCirugiasController;
-use Controllers\IplPlanificadorController;
-use Helpers\ProtocoloHelper;
+use medforge\controllers\DashboardController;
+use medforge\modules\Pacientes\Services\PacienteService;
+use medforge\controllers\ReporteCirugiasController;
+use medforge\controllers\IplPlanificadorController;
+use medforge\helpers\ProtocoloHelper;
 
 $reporteCirugiasController = new ReporteCirugiasController($pdo);
 $pacienteService = new PacienteService($pdo);

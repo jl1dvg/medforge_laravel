@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Controllers\DashboardController;
-use Controllers\ReglaController;
+use medforge\controllers\DashboardController;
+use medforge\controllers\ReglaController;
 
 $controller = new ReglaController($pdo);
 $dashboardController = new DashboardController($pdo);
