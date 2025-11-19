@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/legacy.css',
                 'resources/css/legacy-auth.css',
+                'resources/css/legacy-dashboard.css',
                 'resources/css/vendor/datatables.css',
                 'resources/js/app.js',
                 'resources/js/legacy/index.js',
