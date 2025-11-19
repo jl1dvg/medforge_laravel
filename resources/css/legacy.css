@@ -1,0 +1,12 @@
+@import '../../public/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css';
+@import '../../public/assets/icons/font-awesome/css/font-awesome.min.css';
+@import '../../public/css/vendors_css.css';
+@import '../../public/css/horizontal-menu.css';
+@import '../../public/css/style.css';
+@import '../../public/css/skin_color.css';
+@import '../../public/assets/vendor_components/horizontal-timeline/css/horizontal-timeline.css';
+@import '../../public/assets/vendor_components/apexcharts-bundle/dist/apexcharts.css';
+
+:root {
+    --legacy-primary-color: #3246d3;
+}
