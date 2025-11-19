@@ -410,7 +410,7 @@ class SettingsHelper
                                     false,
                                     'Debe coincidir con el token configurado en Meta para validar la suscripción.'
                                 ),
-                                ['default' => 'medforge-whatsapp']
+                                ['default' => 'medforge_bak-whatsapp']
                             ),
                         ],
                     ],
@@ -471,7 +471,7 @@ class SettingsHelper
                                     false,
                                     'Debe coincidir con el token configurado en Meta para validar la suscripción.'
                                 ),
-                                ['default' => 'medforge-whatsapp']
+                                ['default' => 'medforge_bak-whatsapp']
                             ),
                         ],
                     ],

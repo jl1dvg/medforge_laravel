@@ -397,7 +397,7 @@ $meta = $flow['meta'] ?? [];
 $consent = is_array($flow['consent'] ?? null) ? $flow['consent'] : [];
 $brand = $meta['brand'] ?? ($config['brand'] ?? 'MedForge');
 $webhookUrl = $config['webhook_url'] ?? (rtrim((string)(defined('BASE_URL') ? BASE_URL : ''), '/') . '/whatsapp/webhook');
-$webhookToken = trim((string)($config['webhook_verify_token'] ?? 'medforge-whatsapp'));
+$webhookToken = trim((string)($config['webhook_verify_token'] ?? 'medforge_bak-whatsapp'));
 
 $editorEntry = $editorFlow['entry'] ?? [];
 $editorOptions = $editorFlow['options'] ?? [];

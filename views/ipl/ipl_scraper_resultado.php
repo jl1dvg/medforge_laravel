@@ -48,7 +48,7 @@ if (isset($_POST['scrape_derivacion']) && !empty($_POST['form_id_scrape']) && !e
     $form_id = escapeshellarg($_POST['form_id_scrape']);
     $hc_number = escapeshellarg($_POST['hc_number_scrape']);
 
-    $command = "/usr/bin/python3 /homepages/26/d793096920/htdocs/medforge/scrapping/scrape_log_admision.py $form_id $hc_number";
+    $command = "/usr/bin/python3 /homepages/26/d793096920/htdocs/medforge_bak/scrapping/scrape_log_admision.py $form_id $hc_number";
     $output = shell_exec($command);
     // Mostrar resultado en pantalla
     echo "<div class='box' font-family: monospace;'>";

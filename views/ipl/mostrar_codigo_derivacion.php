@@ -7,7 +7,7 @@ if (!$form_id || !$hc_number) {
     exit;
 }
 
-$command = "/usr/bin/python3 /homepages/26/d793096920/htdocs/medforge/scrapping/scrape_log_admision.py " . escapeshellarg($form_id) . " " . escapeshellarg($hc_number);
+$command = "/usr/bin/python3 /homepages/26/d793096920/htdocs/medforge_bak/scrapping/scrape_log_admision.py " . escapeshellarg($form_id) . " " . escapeshellarg($hc_number);
 $output = shell_exec($command);
 
 echo "<h3>Resultado del scraping:</h3>";

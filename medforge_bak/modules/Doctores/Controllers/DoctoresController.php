@@ -1070,7 +1070,7 @@ class DoctoresController extends BaseController
             ['label' => 'Asistente clínica', 'value' => 'María Silva · Ext. 204'],
             ['label' => 'Coordinación quirúrgica', 'value' => 'Carlos Benítez · Ext. 219'],
             ['label' => 'Gestor de seguros', 'value' => 'Paola Díaz · Ext. 132'],
-            ['label' => 'Soporte telemedicina', 'value' => 'telemedicina@medforge.com'],
+            ['label' => 'Soporte telemedicina', 'value' => 'telemedicina@medforge_bak.com'],
             ['label' => 'Línea de emergencias', 'value' => '+593 99 123 4567'],
         ];
 

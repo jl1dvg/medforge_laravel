@@ -191,7 +191,7 @@ class WhatsAppSettings
                 ?? $_ENV['WHATSAPP_VERIFY_TOKEN']
                 ?? getenv('WHATSAPP_WEBHOOK_VERIFY_TOKEN')
                 ?? getenv('WHATSAPP_VERIFY_TOKEN')
-                ?? 'medforge-whatsapp'
+                ?? 'medforge_bak-whatsapp'
             );
         }
 
