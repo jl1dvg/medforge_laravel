@@ -2675,7 +2675,7 @@
 
         const info = document.createElement('div');
         info.className = 'alert alert-info small';
-        info.innerHTML = 'Utiliza una plantilla aprobada para notificaciones oficiales. Consulta <a href="https://www.facebook.com/business/help/2055875911190067" target="_blank" rel="noopener">los requisitos de Meta</a> y nuestros <a href="https://medforge.help/whatsapp/templates" target="_blank" rel="noopener">ejemplos sugeridos</a>.';
+        info.innerHTML = 'Utiliza una plantilla aprobada para notificaciones oficiales. Consulta <a href="https://www.facebook.com/business/help/2055875911190067" target="_blank" rel="noopener">los requisitos de Meta</a> y nuestros <a href="https://medforge_bak.help/whatsapp/templates" target="_blank" rel="noopener">ejemplos sugeridos</a>.';
         container.appendChild(info);
 
         if (!Array.isArray(templateCatalog) || templateCatalog.length === 0) {

@@ -2,7 +2,7 @@
 require_once '../../bootstrap.php';
 require_once '../../controllers/BillingController.php';
 
-use medforge\controllers\BillingController;
+use Controllers\BillingController;
 
 $formId = $_GET['form_id'] ?? null;
 
