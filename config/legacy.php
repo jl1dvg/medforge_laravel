@@ -9,8 +9,10 @@ return [
 
     'modules' => [
         'pacientes' => [
+            'enabled' => env('LEGACY_MODULE_PACIENTES_ENABLED', true),
             'name' => 'Pacientes y HC',
             'description' => 'Historial clínico, resumenes y reportes vinculados a cada historia clínica digital.',
+            'risk' => 'Cualquier caída deja a admisiones y médicos sin acceso al historial clínico consolidado.',
             'legacy_entry' => 'PacienteController.php',
             'folder' => null,
             'views' => [
@@ -40,8 +42,10 @@ return [
             ],
         ],
         'solicitudes' => [
+            'enabled' => env('LEGACY_MODULE_SOLICITUDES_ENABLED', true),
             'name' => 'Solicitudes y CRM',
             'description' => 'Motor Kanban y formularios de solicitud quirúrgica heredados del stack PHP clásico.',
+            'risk' => 'Interrupciones paralizan el seguimiento de solicitudes y afectan coordinación de quirófano.',
             'legacy_entry' => 'SolicitudController.php',
             'folder' => 'Flowmaker',
             'views' => [
@@ -70,8 +74,10 @@ return [
             ],
         ],
         'billing' => [
+            'enabled' => env('LEGACY_MODULE_BILLING_ENABLED', true),
             'name' => 'Facturación',
             'description' => 'Herramientas para prefacturación y reportes IESS/ISSPOL conservadas del sistema previo.',
+            'risk' => 'Errores impactan entregables oficiales y comprometen la recaudación mensual.',
             'legacy_entry' => 'BillingController.php',
             'folder' => 'Billing',
             'views' => [

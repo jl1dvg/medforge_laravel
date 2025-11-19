@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureLegacyModuleIsEnabled;
 use App\Providers\AppServiceProvider;
 use App\Providers\AuthServiceProvider;
 use App\Providers\LegacyServiceProvider;
@@ -20,7 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'legacy.module' => EnsureLegacyModuleIsEnabled::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

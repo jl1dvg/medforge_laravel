@@ -124,13 +124,17 @@ class LegacyModuleRegistry
             $normalized[$normalizedSlug] = [
                 ...$definition,
                 'slug' => $normalizedSlug,
+                'enabled' => (bool) ($definition['enabled'] ?? true),
                 'routes' => $this->normalizeRoutes($definition['routes'] ?? []),
                 'assets' => $this->normalizeAssets($definition['assets'] ?? []),
                 'views' => array_values($definition['views'] ?? []),
             ];
         }
 
-        return $normalized;
+        return array_filter(
+            $normalized,
+            fn (array $module): bool => $module['enabled'] === true
+        );
     }
 
     /**
