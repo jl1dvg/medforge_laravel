@@ -339,14 +339,11 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script>
-    <script src="{{ asset('assets/vendor_components/horizontal-timeline/js/horizontal-timeline.js') }}"></script>
-    <script src="{{ asset('js/pages/patient-detail.js') }}"></script>
     <script>
         const statsData = @json($estadisticas);
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('legacy:pacientes:scripts-ready', () => {
             const chartEl = document.getElementById('paciente-estadisticas-chart');
-            if (chartEl && Object.keys(statsData).length) {
+            if (chartEl && Object.keys(statsData).length && window.ApexCharts) {
                 const chart = new ApexCharts(chartEl, {
                     series: Object.values(statsData),
                     chart: { type: 'donut' },
@@ -359,4 +356,5 @@
             }
         });
     </script>
+    @vite('resources/js/pages/pacientes/show.js')
 @endpush

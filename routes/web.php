@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Legacy\ModuleBrowserController;
 use App\Http\Controllers\Pacientes\PacienteController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +28,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/{hcNumber}', [PacienteController::class, 'show'])
             ->where('hcNumber', '[A-Za-z0-9\-]+')
             ->name('show');
+    });
+
+    Route::prefix('legacy')->name('legacy.')->group(function () {
+        Route::resource('modules', ModuleBrowserController::class)
+            ->only(['index', 'show'])
+            ->parameter('modules', 'module');
     });
 });

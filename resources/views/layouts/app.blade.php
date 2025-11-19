@@ -61,11 +61,12 @@
     <link rel="icon" href="{{ asset('images/favicon.ico') }}">
     <title>{{ $fullTitle }}</title>
 
-    <link rel="stylesheet" href="{{ asset('css/vendors_css.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ asset('css/horizontal-menu.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/skin_color.css') }}">
+    @vite([
+        'resources/css/app.css',
+        'resources/css/legacy.css',
+        'resources/js/app.js',
+        'resources/js/legacy/index.js',
+    ])
     @stack('styles')
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" defer></script>
 </head>
@@ -93,22 +94,6 @@
 
     @include('layouts.partials.footer')
 </div>
-
-@php
-    $defaultScripts = [
-        'js/vendors.min.js',
-        'js/pages/chat-popup.js',
-        'assets/icons/feather-icons/feather.min.js',
-        'js/jquery.smartmenus.js',
-        'js/menus.js',
-        'js/pages/global-search.js',
-        'js/template.js',
-    ];
-@endphp
-
-@foreach($defaultScripts as $script)
-    <script src="{{ asset($script) }}"></script>
-@endforeach
 
 @stack('scripts')
 </body>
