@@ -1,0 +1,1 @@
+import{i as t}from"./injector-DTwfO8VM.js";const s=["js/vendors.min.js","js/pages/chat-popup.js","assets/icons/feather-icons/feather.min.js","js/jquery.smartmenus.js","js/menus.js","js/pages/global-search.js","js/template.js"];typeof document<"u"&&t(s).then(()=>{document.dispatchEvent(new CustomEvent("legacy:core-scripts-ready",{detail:s}))}).catch(e=>console.error(e));
