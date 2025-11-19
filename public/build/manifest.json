@@ -2717,6 +2717,15 @@
       "legacy-auth.css"
     ]
   },
+  "resources/css/legacy-dashboard.css": {
+    "file": "assets/legacy-dashboard-Cf0YIkHA.css",
+    "src": "resources/css/legacy-dashboard.css",
+    "isEntry": true,
+    "name": "legacy-dashboard",
+    "names": [
+      "legacy-dashboard.css"
+    ]
+  },
   "resources/css/legacy.css": {
     "file": "assets/legacy-C3grNRYT.css",
     "src": "resources/css/legacy.css",
