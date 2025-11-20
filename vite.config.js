@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/js/legacy/index.js',
                 'resources/js/pages/pacientes/index.js',
                 'resources/js/pages/pacientes/show.js',
+                'resources/js/legacy/patients-legacy.js',
             ],
             refresh: true,
         }),
