@@ -1,8 +1,3 @@
-<?php
-/**
- * Panel lateral global de notificaciones.
- */
-?>
 <aside id="kanbanNotificationPanel" class="control-sidebar notification-panel" aria-hidden="true">
     <div class="rpanel-title notification-panel__header">
         <div class="notification-panel__headline">
