@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Legacy\LegacyModuleAssetController;
 use App\Http\Controllers\Api\Legacy\LegacyModuleController;
+use App\Http\Controllers\Api\Patients\LegacyPacienteController;
 use App\Http\Controllers\Api\Pacientes\SolicitudDetalleController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,16 @@ Route::middleware(['api', 'legacy.module'])
             ->only(['index', 'show'])
             ->parameter('modules', 'module')
             ->parameter('assets', 'type');
+
+        Route::prefix('pacientes')
+            ->name('pacientes.')
+            ->group(function (): void {
+                Route::post('/datatable', [LegacyPacienteController::class, 'datatable'])
+                    ->name('datatable');
+                Route::get('/{hcNumber}', [LegacyPacienteController::class, 'show'])
+                    ->where('hcNumber', '[A-Za-z0-9\-]+')
+                    ->name('show');
+            });
     });
 
 Route::middleware('api')

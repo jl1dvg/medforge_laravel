@@ -9,7 +9,7 @@ return [
 
     'modules' => [
         'pacientes' => [
-            'enabled' => env('LEGACY_MODULE_PACIENTES_ENABLED', true),
+            'enabled' => env('LEGACY_MODULE_PACIENTES_ENABLED', false),
             'name' => 'Pacientes y HC',
             'description' => 'Historial clínico, resumenes y reportes vinculados a cada historia clínica digital.',
             'risk' => 'Cualquier caída deja a admisiones y médicos sin acceso al historial clínico consolidado.',

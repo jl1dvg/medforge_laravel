@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Legacy\BillingExportController;
 use App\Http\Controllers\Legacy\ModuleBrowserController;
 use App\Http\Controllers\Pacientes\PacienteController;
+use App\Http\Controllers\Patients\LegacyPacienteController;
 use App\Http\Controllers\Reportes\PatientFlowStatisticsController;
 use App\Models\Patient;
 use App\Models\PrefacturaPaciente;
@@ -45,6 +46,17 @@ Route::middleware(['auth', 'legacy.plan'])->group(function () {
         Route::get('/', [PacienteController::class, 'index'])->name('index');
         Route::post('/datatable', [PacienteController::class, 'datatable'])->name('datatable');
         Route::get('/{hcNumber}', [PacienteController::class, 'show'])
+            ->where('hcNumber', '[A-Za-z0-9\-]+')
+            ->name('show');
+    });
+
+    Route::prefix('legacy/pacientes')
+        ->name('legacy.pacientes.')
+        ->middleware(['legacy.module', 'can:viewAny,' . Patient::class])
+        ->group(function () {
+        Route::get('/', [LegacyPacienteController::class, 'index'])->name('index');
+        Route::post('/datatable', [LegacyPacienteController::class, 'datatable'])->name('datatable');
+        Route::get('/{hcNumber}', [LegacyPacienteController::class, 'show'])
             ->where('hcNumber', '[A-Za-z0-9\-]+')
             ->name('show');
     });
