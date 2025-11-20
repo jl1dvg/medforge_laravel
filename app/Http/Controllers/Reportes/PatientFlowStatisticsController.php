@@ -3,20 +3,34 @@
 namespace App\Http\Controllers\Reportes;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Reportes\PatientFlowStatsRequest;
-use App\Services\Legacy\PatientFlowStatisticsService;
 use Illuminate\Http\JsonResponse;
 
 class PatientFlowStatisticsController extends Controller
 {
-    public function __construct(private readonly PatientFlowStatisticsService $patientFlowStatisticsService)
+    /**
+     * Placeholder invokable controller to unblock route resolution until the
+     * legacy report is fully migrated.
+     */
+    public function __invoke(): JsonResponse
     {
+        return $this->placeholder();
     }
 
-    public function __invoke(PatientFlowStatsRequest $request): JsonResponse
+    /**
+     * Some legacy routes reference an explicit `index` action. Keep it
+     * available to avoid "Invalid route action" errors while migration is
+     * in progress.
+     */
+    public function index(): JsonResponse
     {
-        $data = $this->patientFlowStatisticsService->fetch($request->validated());
+        return $this->placeholder();
+    }
 
-        return response()->json($data);
+    private function placeholder(): JsonResponse
+    {
+        return response()->json([
+            'message' => 'Patient flow statistics report is not yet implemented.',
+            'status' => 'pending',
+        ]);
     }
 }
