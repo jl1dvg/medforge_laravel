@@ -7,6 +7,9 @@ use App\Http\Controllers\Legacy\BillingExportController;
 use App\Http\Controllers\Legacy\ModuleBrowserController;
 use App\Http\Controllers\Pacientes\PacienteController;
 use App\Http\Controllers\Reportes\PatientFlowStatisticsController;
+use App\Models\Patient;
+use App\Models\PrefacturaPaciente;
+use App\Models\Visit;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,14 +23,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/auth/login', [LoginController::class, 'store'])->name('login.store');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'legacy.plan'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::post('/auth/logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('/auth/logout', [LoginController::class, 'destroy']);
 
     Route::prefix('agenda')
         ->name('agenda.')
-        ->middleware('can:agenda.view')
+        ->middleware('can:viewAny,' . Visit::class)
         ->group(function (): void {
             Route::get('/', [AgendaController::class, 'index'])->name('index');
             Route::get('/visitas/{visitId}', [AgendaController::class, 'show'])
@@ -35,7 +38,10 @@ Route::middleware('auth')->group(function () {
                 ->name('visits.show');
         });
 
-    Route::prefix('pacientes')->name('pacientes.')->group(function () {
+    Route::prefix('pacientes')
+        ->name('pacientes.')
+        ->middleware('can:viewAny,' . Patient::class)
+        ->group(function () {
         Route::get('/', [PacienteController::class, 'index'])->name('index');
         Route::post('/datatable', [PacienteController::class, 'datatable'])->name('datatable');
         Route::get('/{hcNumber}', [PacienteController::class, 'show'])
@@ -49,7 +55,10 @@ Route::middleware('auth')->group(function () {
             ->parameter('modules', 'module');
     });
 
-    Route::prefix('billing')->name('billing.')->group(function () {
+    Route::prefix('billing')
+        ->name('billing.')
+        ->middleware('can:viewAny,' . PrefacturaPaciente::class)
+        ->group(function () {
         Route::get('/excel', [BillingExportController::class, 'export'])->name('excel');
         Route::get('/exportar_mes', [BillingExportController::class, 'exportMonth'])->name('export-month');
     });
