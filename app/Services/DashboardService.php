@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Services\Dashboard\DashboardStatsService;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
@@ -20,26 +20,26 @@ class DashboardService
         $rangeEnd = Carbon::now();
         $rangeStart = $rangeEnd->copy()->subDays(13);
 
-        $users = DB::table('users')
+        $users = User::query()
             ->orderByDesc('id')
             ->limit(25)
             ->get()
-            ->map(function ($record) {
-                $username = $record->username ?? $record->email ?? 'usuario-'.$record->id;
-                $fullName = $record->nombre ?? $record->name ?? $username;
+            ->map(function (User $user) {
+                $username = $user->username ?? $user->email ?? 'usuario-'.$user->id;
+                $fullName = $user->nombre ?? $user->name ?? $username;
 
                 return [
-                    'id' => $record->id,
+                    'id' => $user->id,
                     'username' => $username,
-                    'email' => $record->email ?? null,
+                    'email' => $user->email,
                     'nombre' => $fullName,
-                    'especialidad' => $record->especialidad ?? null,
-                    'subespecialidad' => $record->subespecialidad ?? null,
-                    'is_approved' => (bool) ($record->is_approved ?? false),
-                    'role' => $record->role ?? ($record->role_name ?? 'Usuario'),
-                    'firma' => $record->firma ?? null,
-                    'biografia' => $record->biografia ?? null,
-                    'created_at' => $record->created_at ?? null,
+                    'especialidad' => $user->especialidad,
+                    'subespecialidad' => $user->subespecialidad,
+                    'is_approved' => (bool) ($user->is_approved ?? false),
+                    'role' => $user->role?->name ?? $user->role_name ?? 'Usuario',
+                    'firma' => $user->firma,
+                    'biografia' => $user->biografia,
+                    'created_at' => $user->created_at,
                 ];
             });
 
