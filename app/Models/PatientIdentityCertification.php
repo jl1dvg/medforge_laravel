@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PatientIdentityCertification extends Model
 {
+    use HasFactory;
+
     protected $table = 'patient_identity_certifications';
 
     protected $casts = [
@@ -20,6 +23,14 @@ class PatientIdentityCertification extends Model
         'patient_id',
         'status',
         'expired_at',
+        'document_number',
+        'document_type',
+        'signature_path',
+        'signature_template',
+        'face_image_path',
+        'face_template',
+        'last_verification_at',
+        'last_verification_result',
     ];
 
     public function patient(): BelongsTo

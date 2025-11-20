@@ -22,4 +22,11 @@ class VisitFactory extends Factory
             'usuario_registro' => fake()->userName(),
         ];
     }
+
+    public function forPatient(Patient $patient): static
+    {
+        return $this->state(fn () => [
+            'hc_number' => $patient->hc_number,
+        ]);
+    }
 }
