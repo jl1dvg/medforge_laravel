@@ -8,7 +8,7 @@ class AgendaIndexRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('agenda.view') ?? false;
+        return $this->user()?->can('viewAny', \App\Models\Visit::class) ?? false;
     }
 
     /**
