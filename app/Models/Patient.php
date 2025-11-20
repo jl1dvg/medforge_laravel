@@ -44,6 +44,21 @@ class Patient extends Model
         return $this->hasMany(ProjectedProcedure::class, 'hc_number', 'hc_number');
     }
 
+    public function protocols(): HasMany
+    {
+        return $this->hasMany(Protocol::class, 'hc_number', 'hc_number');
+    }
+
+    public function solicitudes(): HasMany
+    {
+        return $this->hasMany(SolicitudProcedimiento::class, 'hc_number', 'hc_number');
+    }
+
+    public function prefacturas(): HasMany
+    {
+        return $this->hasMany(PrefacturaPaciente::class, 'hc_number', 'hc_number');
+    }
+
     public function getFullNameAttribute(): string
     {
         $parts = array_filter([

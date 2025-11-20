@@ -2,9 +2,11 @@
 
 namespace App\Services\Dashboard;
 
+use App\Models\Patient;
+use App\Models\Protocol;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class DashboardStatsService
 {
@@ -16,9 +18,9 @@ class DashboardStatsService
     public function summaryCounts(): array
     {
         return [
-            'patients' => (int) DB::table('patient_data')->count(),
-            'protocols' => (int) DB::table('protocolo_data')->count(),
-            'users' => (int) DB::table('users')->count(),
+            'patients' => Patient::query()->count(),
+            'protocols' => Protocol::query()->count(),
+            'users' => User::query()->count(),
         ];
     }
 
@@ -29,9 +31,9 @@ class DashboardStatsService
      */
     public function proceduresTrend(Carbon $start, Carbon $end): array
     {
-        $rows = DB::table('protocolo_data')
+        $rows = Protocol::query()
             ->selectRaw('DATE(fecha_inicio) as day, COUNT(*) as total')
-            ->whereBetween('fecha_inicio', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
+            ->betweenDates($start, $end)
             ->groupBy('day')
             ->orderBy('day')
             ->pluck('total', 'day');
@@ -61,21 +63,22 @@ class DashboardStatsService
      */
     public function recentSurgeries(Carbon $start, Carbon $end, int $limit = 6): Collection
     {
-        return DB::table('protocolo_data as pr')
-            ->join('patient_data as p', 'p.hc_number', '=', 'pr.hc_number')
-            ->select([
-                'pr.id',
-                'pr.membrete',
-                'pr.fecha_inicio',
-                'p.hc_number',
-                DB::raw("CONCAT(COALESCE(p.lname,''), ' ', COALESCE(p.lname2,''), ' ', COALESCE(p.fname,'')) as patient_name"),
-                DB::raw('"Sin asignar" as doctor_name'),
-            ])
-            ->whereBetween('pr.fecha_inicio', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
-            ->orderByDesc('pr.fecha_inicio')
+        return Protocol::query()
+            ->with('patient')
+            ->betweenDates($start, $end)
+            ->orderByDesc('fecha_inicio')
             ->limit($limit)
             ->get()
-            ->map(fn ($row) => (array) $row);
+            ->map(function (Protocol $protocol) {
+                return [
+                    'id' => $protocol->id,
+                    'membrete' => $protocol->membrete,
+                    'fecha_inicio' => $protocol->fecha_inicio,
+                    'hc_number' => $protocol->hc_number,
+                    'patient_name' => $protocol->patient?->full_name,
+                    'doctor_name' => 'Sin asignar',
+                ];
+            });
     }
 
     /**
@@ -85,9 +88,9 @@ class DashboardStatsService
      */
     public function topProcedures(Carbon $start, Carbon $end, int $limit = 6): array
     {
-        $rows = DB::table('protocolo_data')
+        $rows = Protocol::query()
             ->selectRaw('membrete, COUNT(*) as total')
-            ->whereBetween('fecha_inicio', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
+            ->betweenDates($start, $end)
             ->groupBy('membrete')
             ->orderByDesc('total')
             ->limit($limit)

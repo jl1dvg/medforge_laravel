@@ -20,6 +20,21 @@ class ProjectedProcedure extends Model
         'fecha' => 'datetime',
     ];
 
+    /** @var list<string> */
+    protected $fillable = [
+        'hc_number',
+        'visita_id',
+        'form_id',
+        'procedimiento_proyectado',
+        'procedimiento_id',
+        'fecha',
+        'hora',
+        'estado_agenda',
+        'doctor',
+        'id_sede',
+        'sede_departamento',
+    ];
+
     protected $appends = [
         'agenda_date',
         'agenda_time',

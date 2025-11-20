@@ -2,6 +2,9 @@
 
 namespace App\Services\Pacientes;
 
+use App\Models\PrefacturaPaciente;
+use App\Models\Protocol;
+use App\Models\SolicitudProcedimiento;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -150,42 +153,36 @@ class PacienteService
 
     private function solicitudesList(string $hcNumber, int $limit): Collection
     {
-        return DB::table('solicitud_procedimiento')
-            ->select('procedimiento', 'created_at', 'tipo', 'form_id')
-            ->where('hc_number', $hcNumber)
-            ->whereNotNull('procedimiento')
-            ->where('procedimiento', '!=', '')
-            ->orderByDesc('created_at')
-            ->limit($limit)
-            ->get();
+        return SolicitudProcedimiento::query()
+            ->forPatient($hcNumber)
+            ->withProcedure()
+            ->recent($limit)
+            ->get(['procedimiento', 'created_at', 'tipo', 'form_id']);
     }
 
     private function documentosDescargables(string $hcNumber): array
     {
-        $protocolos = DB::table('protocolo_data')
-            ->select('form_id', 'hc_number', 'membrete', 'fecha_inicio as fecha')
-            ->where('hc_number', $hcNumber)
-            ->get()
-            ->map(fn ($row) => [
+        $protocolos = Protocol::query()
+            ->forPatient($hcNumber)
+            ->get(['form_id', 'hc_number', 'membrete', 'fecha_inicio'])
+            ->map(fn (Protocol $protocol) => [
                 'tipo' => 'protocolo',
-                'titulo' => $row->membrete ?? 'Protocolo',
-                'fecha' => $row->fecha,
-                'hc_number' => $row->hc_number,
-                'form_id' => $row->form_id,
+                'titulo' => $protocol->membrete ?? 'Protocolo',
+                'fecha' => $protocol->fecha_inicio,
+                'hc_number' => $protocol->hc_number,
+                'form_id' => $protocol->form_id,
             ]);
 
-        $solicitudes = DB::table('solicitud_procedimiento')
-            ->select('form_id', 'hc_number', 'procedimiento', 'created_at as fecha')
-            ->where('hc_number', $hcNumber)
-            ->whereNotNull('procedimiento')
-            ->where('procedimiento', '!=', '')
-            ->get()
-            ->map(fn ($row) => [
+        $solicitudes = SolicitudProcedimiento::query()
+            ->forPatient($hcNumber)
+            ->withProcedure()
+            ->get(['form_id', 'hc_number', 'procedimiento', 'created_at as fecha'])
+            ->map(fn (SolicitudProcedimiento $solicitud) => [
                 'tipo' => 'solicitud',
-                'titulo' => $row->procedimiento ?? 'Solicitud',
-                'fecha' => $row->fecha,
-                'hc_number' => $row->hc_number,
-                'form_id' => $row->form_id,
+                'titulo' => $solicitud->procedimiento ?? 'Solicitud',
+                'fecha' => $solicitud->fecha ?? $solicitud->created_at,
+                'hc_number' => $solicitud->hc_number,
+                'form_id' => $solicitud->form_id,
             ]);
 
         return $protocolos->merge($solicitudes)
@@ -281,20 +278,17 @@ class PacienteService
 
     private function solicitudesTimelineItems(string $hcNumber, int $limit): array
     {
-        return DB::table('solicitud_procedimiento')
-            ->select('procedimiento', 'created_at', 'tipo', 'form_id')
-            ->where('hc_number', $hcNumber)
-            ->whereNotNull('procedimiento')
-            ->where('procedimiento', '!=', '')
-            ->orderByDesc('created_at')
-            ->limit($limit)
-            ->get()
-            ->map(function ($row) {
+        return SolicitudProcedimiento::query()
+            ->forPatient($hcNumber)
+            ->withProcedure()
+            ->recent($limit)
+            ->get(['procedimiento', 'created_at', 'tipo', 'form_id'])
+            ->map(function (SolicitudProcedimiento $solicitud) {
                 return [
-                    'nombre' => $row->procedimiento,
-                    'fecha' => $row->created_at,
-                    'tipo' => strtolower($row->tipo ?? 'otro'),
-                    'form_id' => $row->form_id,
+                    'nombre' => $solicitud->procedimiento,
+                    'fecha' => $solicitud->created_at,
+                    'tipo' => strtolower($solicitud->tipo ?? 'otro'),
+                    'form_id' => $solicitud->form_id,
                     'origen' => 'Solicitud',
                 ];
             })
@@ -307,17 +301,13 @@ class PacienteService
             return [];
         }
 
-        return DB::table('prefactura_paciente')
-            ->select('id', 'fecha_creacion', 'procedimientos', 'form_id')
-            ->where('hc_number', $hcNumber)
+        return PrefacturaPaciente::query()
+            ->forPatient($hcNumber)
             ->orderByDesc('fecha_creacion')
             ->limit($limit)
-            ->get()
-            ->map(function ($row) {
-                $procedimientos = [];
-                if (! empty($row->procedimientos) && is_string($row->procedimientos)) {
-                    $procedimientos = json_decode($row->procedimientos, true) ?: [];
-                }
+            ->get(['id', 'fecha_creacion', 'procedimientos', 'form_id'])
+            ->map(function (PrefacturaPaciente $prefactura) {
+                $procedimientos = $prefactura->procedimientos ?? [];
 
                 $nombre = 'Prefactura';
                 if ($procedimientos !== []) {
@@ -326,9 +316,9 @@ class PacienteService
 
                 return [
                     'nombre' => $nombre,
-                    'fecha' => $row->fecha_creacion,
+                    'fecha' => $prefactura->fecha_creacion,
                     'tipo' => 'prefactura',
-                    'form_id' => $row->form_id,
+                    'form_id' => $prefactura->form_id,
                     'origen' => 'Prefactura',
                 ];
             })
