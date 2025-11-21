@@ -1,11 +1,58 @@
-@import '../../public/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css';
-@import '../../public/assets/icons/font-awesome/css/font-awesome.min.css';
-@import '../../public/css/vendors_css.css';
-@import '../../public/css/horizontal-menu.css';
-@import '../../public/css/style.css';
-@import '../../public/css/skin_color.css';
-@import '../../public/assets/vendor_components/horizontal-timeline/css/horizontal-timeline.css';
-@import '../../public/assets/vendor_components/apexcharts-bundle/dist/apexcharts.css';
+/* Legacy import from public/ removed because Vite cannot resolve files from public/.
+ * If auth.css is needed, copy it to resources/css/vendor/ and import it from there.
+ * Example (after copying):
+ * @import "./vendor/auth.css";
+ */
+/* Bootstrap + FontAwesome via npm */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+/* ApexCharts via npm */
+@import "apexcharts/dist/apexcharts.css";
+
+/* Legacy vendor CSS moved into resources/css/vendor */
+@import "./vendor/horizontal-menu.css";
+@import "./vendor/style.css";
+@import "./vendor/skin_color.css";
+@import "./vendor/horizontal-timeline.css";
+@import "./vendor/jquery.bootstrap-touchspin.css";
+@import "./vendor/animated-masonry-gallery.css";
+@import "./vendor/jquery-jvectormap-2.0.2.css";
+@import "./vendor/bootstrap-markdown.css";
+@import "./vendor/fullcalendar.css";
+@import "./vendor/fullcalendar.print.css";
+/* etc... */
+
+
+/* Import desde node_modules */
+@import "perfect-scrollbar/css/perfect-scrollbar.css";
+@import "morris.js/morris.css";
+@import "owl.carousel/dist/assets/owl.carousel.css";
+@import "owl.carousel/dist/assets/owl.theme.default.css";
+@import "prismjs/themes/prism.css";
+@import "datatables.net-dt/css/datatables.dataTables.css";
+@import "magnific-popup/dist/magnific-popup.css";
+@import "ekko-lightbox/dist/ekko-lightbox.css";
+@import "select2/dist/css/select2.css";
+@import "flexslider/flexslider.css";
+@import "dropzone/dist/dropzone.css";
+@import "daterangepicker/daterangepicker.css";
+@import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
+@import "bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css";
+@import "bootstrap-select/dist/css/bootstrap-select.min.css";
+@import "bootstrap-tagsinput/dist/bootstrap-tagsinput.css";
+@import "ion-rangeslider/css/ion.rangeSlider.css";
+@import "gridstack/dist/gridstack.min.css";
+@import "jquery-toast-plugin/dist/jquery.toast.min.css";
+@import "nestable2/jquery.nestable.css";
+@import "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css";
+@import "c3/c3.min.css";
+@import "sweetalert2/dist/sweetalert2.min.css";
+@import "chartist/dist/index.css";
+/* ... etc ... */
+
+/* Plugins legacy que NO existen en npm */
+/* ... etc ... */
 
 :root {
     --legacy-primary-color: #3246d3;

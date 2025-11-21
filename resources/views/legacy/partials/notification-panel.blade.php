@@ -5,7 +5,7 @@
             <p class="text-muted mb-0">Últimas alertas del Kanban, CRM y recordatorios.</p>
         </div>
         <button type="button" class="btn btn-circle btn-danger" data-action="close-panel" aria-label="Cerrar panel">
-            <i class="ion ion-close text-white"></i>
+            <i class="mdi mdi-close text-white"></i>
         </button>
     </div>
 
@@ -35,11 +35,11 @@
         <div class="tab-pane fade show active" id="control-sidebar-home-tab" role="tabpanel">
             <div class="flexbox notification-panel__toolbar align-items-center">
                 <span class="text-grey" aria-hidden="true">
-                    <i class="ti-more"></i>
+                    <i class="mdi mdi-dots-horizontal"></i>
                 </span>
                 <p class="mb-0">Novedades en vivo</p>
                 <span class="text-end text-grey" aria-hidden="true">
-                    <i class="ti-plus"></i>
+                    <i class="mdi mdi-plus"></i>
                 </span>
             </div>
             <div class="notification-panel__section-header mt-2">
@@ -52,11 +52,11 @@
         <div class="tab-pane fade" id="control-sidebar-settings-tab" role="tabpanel">
             <div class="flexbox notification-panel__toolbar align-items-center">
                 <span class="text-grey" aria-hidden="true">
-                    <i class="ti-more"></i>
+                    <i class="mdi mdi-dots-horizontal"></i>
                 </span>
                 <p class="mb-0">Pendientes y recordatorios</p>
                 <span class="text-end text-grey" aria-hidden="true">
-                    <i class="ti-plus"></i>
+                    <i class="mdi mdi-plus"></i>
                 </span>
             </div>
             <div class="notification-panel__section-header mt-2">

@@ -125,7 +125,7 @@
                                         </div>
                                         @if($isSolicitud)
                                             <div class="dropdown">
-                                                <a class="px-10 pt-5" href="#" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                                <a class="px-10 pt-5" href="#" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <a class="dropdown-item flexbox"
                                                        href="#"

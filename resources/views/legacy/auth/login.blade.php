@@ -23,7 +23,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
+                                        <span class="input-group-text bg-transparent"><i class="mdi mdi-account-outline"></i></span>
                                         <label for="username" class="visually-hidden">Usuario</label>
                                         <input type="text" id="username" name="username"
                                                class="form-control ps-15 bg-transparent" placeholder="Username"
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-transparent"><i class="ti-lock"></i></span>
+                                        <span class="input-group-text  bg-transparent"><i class="mdi mdi-lock-outline"></i></span>
                                         <label for="password" class="visually-hidden">Contraseña</label>
                                         <input type="password" id="password" name="password"
                                                class="form-control ps-15 bg-transparent"
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="fog-pwd text-end">
-                                            <a href="#" class="hover-warning"><i class="ion ion-locked"></i> ¿Olvidaste la contraseña?</a><br>
+                                            <a href="#" class="hover-warning"><i class="mdi mdi-lock-question"></i> ¿Olvidaste la contraseña?</a><br>
                                         </div>
                                     </div>
                                     <div class="col-12 text-center">

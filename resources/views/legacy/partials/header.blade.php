@@ -92,8 +92,8 @@
                     </a>
                     <ul class="dropdown-menu animated flipInX">
                         <li class="user-body">
-                            <a class="dropdown-item" href="extra_profile.html"><i class="ti-user text-muted me-2"></i> Profile</a>
-                            <a class="dropdown-item" href="/auth/logout"><i class="ti-lock text-muted me-2"></i> Logout</a>
+                            <a class="dropdown-item" href="extra_profile.html"><i class="mdi mdi-account text-muted me-2"></i> Profile</a>
+                            <a class="dropdown-item" href="/auth/logout"><i class="mdi mdi-lock text-muted me-2"></i> Logout</a>
                         </li>
                     </ul>
                 </li>
