@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../../bootstrap.php';
 
-use medforge\controllers\DashboardController;
-use medforge\modules\Pacientes\Services\PacienteService;
-use medforge\controllers\ReporteCirugiasController;
+use Controllers\DashboardController;
+use Modules\Pacientes\Services\PacienteService;
+use Controllers\ReporteCirugiasController;
 
 $reporteCirugiasController = new ReporteCirugiasController($pdo);
 $pacienteService = new PacienteService($pdo);

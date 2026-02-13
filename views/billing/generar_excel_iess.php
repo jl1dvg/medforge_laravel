@@ -4,8 +4,8 @@ require_once __DIR__ . '/../../bootstrap.php';
 /** @var PDO $pdo */
 global $pdo;
 
-use medforge\controllers\ReglaController;
-use medforge\controllers\BillingController;
+use Controllers\ReglaController;
+use Controllers\BillingController;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -34,8 +34,14 @@ if (empty($datosFacturacionLote)) {
     die("No se encontró ninguna prefactura válida.");
 }
 
-// Crear Excel
-$spreadsheet = new Spreadsheet();
+// Crear o reutilizar Excel
+/** @var Spreadsheet|null $spreadsheet */
+$spreadsheet = $GLOBALS['spreadsheet'] ?? null;
+if (!($spreadsheet instanceof Spreadsheet)) {
+    $spreadsheet = new Spreadsheet();
+    $GLOBALS['spreadsheet'] = $spreadsheet;
+}
+
 $sheet = $spreadsheet->getActiveSheet();
 $sheet->setTitle('IESS');
 

@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use medforge\controllers\BillingController;
+use Controllers\BillingController;
 
 function aplicarEstiloCelda($sheet, $celda, $opciones = [])
 {
@@ -91,8 +91,14 @@ if (!empty($diagnosticoStr)) {
     $cie102 = $codigosUnicos[1] ?? '';
 }
 
-// Crear Excel
-$spreadsheet = new Spreadsheet();
+// Crear o reutilizar Excel
+/** @var Spreadsheet|null $spreadsheet */
+$spreadsheet = $GLOBALS['spreadsheet'] ?? null;
+if (!($spreadsheet instanceof Spreadsheet)) {
+    $spreadsheet = new Spreadsheet();
+    $GLOBALS['spreadsheet'] = $spreadsheet;
+}
+
 $sheet = $spreadsheet->getActiveSheet();
 $sheet->setTitle('Prefactura');
 $sheet->getColumnDimension('A')->setWidth(3.6);

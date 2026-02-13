@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../bootstrap.php';
 
 
-use medforge\controllers\UserController;
+use Controllers\UserController;
 
 $id = $_GET['id'] ?? null;
 

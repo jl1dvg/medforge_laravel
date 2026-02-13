@@ -1,7 +1,7 @@
 <?php
 require_once '../../bootstrap.php';
 
-use medforge\controllers\ReglaController;
+use Controllers\ReglaController;
 
 $controller = new ReglaController($pdo);
 

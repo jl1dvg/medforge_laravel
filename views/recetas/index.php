@@ -2,7 +2,7 @@
 // views/recetas/index.php
 require_once '../../bootstrap.php';
 
-use medforge\controllers\RecetasController;
+use Controllers\RecetasController;
 
 $controller = new RecetasController($pdo);
 

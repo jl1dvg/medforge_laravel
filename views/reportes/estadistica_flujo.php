@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../../bootstrap.php';
 
-use medforge\controllers\EstadisticaFlujoController;
-use medforge\controllers\DashboardController;
+use Controllers\EstadisticaFlujoController;
+use Controllers\DashboardController;
 
 $dashboardController = new DashboardController($pdo);
 $username = $dashboardController->getAuthenticatedUser();

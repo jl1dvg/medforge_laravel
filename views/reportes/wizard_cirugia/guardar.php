@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../../../bootstrap.php';
 
-use medforge\controllers\GuardarProtocoloController;
+use Controllers\GuardarProtocoloController;
 
 header('Content-Type: application/json');
 
